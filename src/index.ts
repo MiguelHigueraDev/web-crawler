@@ -1,6 +1,7 @@
 import { argv } from "process";
 import { crawlSiteAsync } from "./crawl";
 import pLimit from "p-limit";
+import { printReport } from "./report";
 
 const main = async () => {
   if (argv.length != 3) {
@@ -10,7 +11,8 @@ const main = async () => {
 
   const baseURL = argv[2];
   console.log(`Starting crawl of ${baseURL}`);
-  await crawlSiteAsync(baseURL, {}, pLimit(10));
+  const pages = await crawlSiteAsync(baseURL, {}, pLimit(10));
+  printReport(pages, baseURL);
 };
 
 main();
